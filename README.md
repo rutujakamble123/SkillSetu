@@ -84,6 +84,8 @@ This project is currently not licensed. All rights reserved by the author.
 Rutuja Kamble
 🌐 Web Developer | Ex-System Engineer @ Infosys | Exploring New Opportunities
 
+📧 Email:kamblerutu234@gmail.com | 9370787118
+
 📌 GitHub: https://github.com/rutujakamble123
 
 📌 LinkedIn: https://www.linkedin.com/in/rutuja-kamble-7a3452190
