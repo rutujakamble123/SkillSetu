@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SkillSetu – Local Skills for Hire</title>
+
+<!-- Firebase App (core SDK) -->
+<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js"></script>
+<!-- Firebase Firestore -->
+<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js"></script>
+<!-- Firebase Analytics (optional) -->
+<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js"></script>
+
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+  <!-- AOS (we’ll use it later) -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <style>
+    
+
+    /* Base */
+    body{
+      font-family: 'Segoe UI', sans-serif;
+      background:#f6fdf8;
+      padding-top:70px; /* space for fixed navbar */
+    }
+
+    /* Navbar */
+    .navbar{ background:#a8e6cf; font-weight:500; }
+    .navbar-brand{ font-size:1.5rem; font-weight:700; }
+    .navbar-tagline{ font-size:.75rem; color:#333; margin-left:5px; display:block; }
+    .navbar .nav-link{ color:#222 !important; transition:color .3s; }
+    .navbar .nav-link:hover{ color:#007f5f !important; }
+
+    /* Pretty auth buttons */
+    .btn-login{
+      border-radius:50px; border:2px solid #007f5f; color:#007f5f;
+      padding:6px 18px; font-weight:500; transition:all .3s ease-in-out;
+    }
+    .btn-login:hover{
+      background:#007f5f; color:#fff; transform:translateY(-2px);
+      box-shadow:0 4px 12px rgba(0,127,95,.3);
+    }
+    .btn-signup{
+      border-radius:50px; background:linear-gradient(135deg,#34d399,#059669);
+      border:none; color:#fff; padding:6px 18px; font-weight:500; transition:all .3s ease-in-out;
+    }
+    .btn-signup:hover{
+      background:linear-gradient(135deg,#059669,#34d399);
+      transform:translateY(-2px); box-shadow:0 4px 12px rgba(5,150,105,.4);
+    }
+   
+/* Footer styling */
+.footer {
+    background: linear-gradient(135deg, #2e7d4b, #a3d9c1);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Footer links */
+.footer-links a {
+    color: white;
+    margin: 0 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.footer-links a:hover {
+    color: #ffdd59;
+    transform: scale(1.1);
+}
+
+/* Social icons */
+.social-icons a {
+    color: white;
+    margin: 0 10px;
+    font-size: 1.5rem;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+.social-icons a:hover {
+    
+    transform: rotate(15deg) scale(1.2);
+}
+
+/* Divider */
+.footer-divider {
+    border: 0.5px solid rgba(255, 255, 255, 0.3);
+    margin: 20px 0;
+}
+
+/* Footer brand animation */
+.footer h2 {
+    position: relative;
+    display: inline-block;
+}
+.footer h2::after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 2px;
+    background: #ffdd59;
+    left: 25%;
+    bottom: -5px;
+    transition: width 0.3s ease;
+}
+.footer h2:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+/* Scroll buttons styling */
+#scrollTopBtn, #scrollBottomBtn {
+    position: fixed;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, #34d399, #10b981);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,127,95,.3);
+    display: none; /* hidden by default */
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: all 0.3s ease;
+}
+#scrollTopBtn:hover, #scrollBottomBtn:hover {
+    background: linear-gradient(135deg, #10b981, #34d399);
+    transform: translateY(-3px);
+}
+
+/* Position top and bottom buttons */
+#scrollTopBtn { bottom: 80px; }
+#scrollBottomBtn { bottom: 20px; }
+
+/* Optional: smooth scrolling for anchor links */
+html {
+    scroll-behavior: smooth;
+}
+
+
+
+
+
+  </style>
+</head>
+<body>
+<!-- Scroll Buttons -->
+<button id="scrollTopBtn" title="Go to top">&#8679;</button>
+<button id="scrollBottomBtn" title="Go to bottom">&#8681;</button>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-dark" href="#">
+        SkillSetu
+        <span class="navbar-tagline">Empowering Local Talent</span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+           <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="skills.html">Skills</a></li>
+           <li class="nav-item"><a class="nav-link"  href="jobs.html">Job Listings</a></li>
+          <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+           <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
+         <!--<li class="nav-item"><a class="nav-link" href="#why">Why Us</a></li>--> 
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+
+        <div class="ms-3">
+          <a href="login.html" class="btn btn-login me-2">Login</a>
+          <a href="signup.html" class="btn btn-signup">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Placeholder so you can see spacing under the navbar -->
+  <main>
+    <div class="container py-3">
+     
+    </div>
+  </main>
+
+ 
+  <!-- Hero Section -->
+<section id="hero" class="py-5" style="background: linear-gradient(135deg, #34d399, #059669); color: #fff;">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Text Column -->
+      <div class="col-md-6" data-aos="fade-right" data-aos-duration="1000">
+        <h1 class="display-4 fw-bold">Connect with Local Talent Instantly</h1>
+        <p class="lead mt-3">SkillSetu empowers local professionals to showcase their skills and get hired by businesses in your area.</p>
+        <a href="signup.html" class="btn btn-light btn-lg mt-3 me-2">Get Started</a>
+        <a href="about.html" class="btn btn-outline-light btn-lg mt-3">Learn More</a>
+      </div>
+
+      <!-- Image Column -->
+      <div class="col-md-6 text-center" data-aos="fade-left" data-aos-duration="1000">
+        <img src="images/Connect.png" alt="Local Skills" class="img-fluid rounded shadow">
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills / Services Section -->
+ <section id="service" class="py-5" data-aos="fade-up">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Our Local Skills</h2>
+            <p class="text-muted">Discover talended proffesional in your area ready to help you.</p>
+        </div>
+        <div class="row g-4">
+             <!-- Skill Card 1 -->
+              <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                <div class="card h-100 text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-code-slash display-4 text-primary mb-3"></i>
+                        <h5 class="card-title fw-bold">Web Developer</h5>
+                        <p class="card-text text-muted">Proffesional Web developers for your personal or business websites. </p>
+                    </div>
+                </div>
+              </div>
+
+                <!-- Skill Card 2 -->
+              <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                <div class="card h-100 text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-palette display-4 text-success mb-3"></i>
+                        <h5 class="card-title fw-bold">Graphic Designer</h5>
+                        <p class="card-text text-muted">Creative designer for logos, banners, social media, and more. </p>
+                    </div>
+                </div>
+              </div>
+
+                <!-- Skill Card 3 -->
+              <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+                <div class="card h-100 text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-camera display-4 text-warning mb-3"></i>
+                        <h5 class="card-title fw-bold">Photography</h5>
+                        <p class="card-text text-muted">Skilled Protographer for events, portaits, and product shoots. </p>
+                    </div>
+                </div>
+              </div>
+        </div>
+    </div>
+ </section>
+
+<!-- Live Stats -->
+<section class="live-stats py-5 text-center" style="background:#f0f8f5;" data-aos="fade-up">
+  <div class="container">
+    <h2 class="mb-4">Where Local Skills Meet Global Standards</h2>
+    <div class="row">
+      <div class="col-md-3 mb-3" data-aos="zoom-in" data-aos-delay="100">
+        <i class="bi bi-people-fill display-5 text-success"></i>
+        <div class="stat-number" data-target="3200">0</div>
+        <p>Active Job Seekers</p>
+      </div>
+      <div class="col-md-3 mb-3" data-aos="zoom-in" data-aos-delay="200">
+        <i class="bi bi-briefcase-fill display-5 text-success"></i>
+        <div class="stat-number" data-target="1800">0</div>
+        <p>Skilled Professionals Hired</p>
+      </div>
+     <div class="col-md-3 mb-3" data-aos="zoom-in" data-aos-delay="300">      <i class="bi bi-building display-5 text-success"></i>
+        <div class="stat-number" data-target="250">0</div>
+        <p>Companies & Clients</p>
+      </div>
+      <div class="col-md-3 mb-3" data-aos="zoom-in" data-aos-delay="400">
+        <i class="bi bi-geo-alt-fill display-5 text-success"></i>
+        <div class="stat-number" data-target="95">0</div>
+        <p>Local Communities Served</p>
+      </div>
+    </div>
+    <a href="#contact" class="btn btn-success mt-3" data-aos="fade-up" data-aos-delay="500">Join as Skill Provider</a>
+  </div>
+</section>
+
+
+ <!-- Testimonials Section -->
+
+<!-- Testimonials Carousel Section (1 testimonial per slide) -->
+<section id="testimonials" class="py-5 bg-light" data-aos="fade-up">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">What Our Users Say</h2>
+      <p class="text-muted">Hear from local skill seekers and providers about their experience with SkillSetu.</p>
+    </div>
+
+    <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500">
+      <div class="carousel-inner text-center">
+        
+        
+   <!-- Testimonials Carousel -->
+<div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner text-center">
+
+    <!-- Testimonial 1 -->
+    <div class="carousel-item active">
+      <div class="card mx-auto border-0 shadow-sm" style="max-width: 500px;">
+        <div class="card-body">
+          <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3"
+               style="width:80px; height:80px; font-size:24px;">
+            RS
+          </div>
+          <h5 class="card-title fw-bold">Ravi Sharma</h5>
+          <p class="card-text text-muted">"SkillSetu helped me find skilled professionals in my area quickly and efficiently!"</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonial 2 -->
+    <div class="carousel-item">
+      <div class="card mx-auto border-0 shadow-sm" style="max-width: 500px;">
+        <div class="card-body">
+          <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center mx-auto mb-3"
+               style="width:80px; height:80px; font-size:24px;">
+            SP
+          </div>
+          <h5 class="card-title fw-bold">Sneha Patil</h5>
+          <p class="card-text text-muted">"As a skill provider, SkillSetu helped me reach more clients locally and grow my business."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonial 3 -->
+    <div class="carousel-item">
+      <div class="card mx-auto border-0 shadow-sm" style="max-width: 500px;">
+        <div class="card-body">
+          <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center mx-auto mb-3"
+               style="width:80px; height:80px; font-size:24px;">
+            AK
+          </div>
+          <h5 class="card-title fw-bold">Amit Kulkarni</h5>
+          <p class="card-text text-muted">"A smooth and easy-to-use platform to find local talent with verified skills."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonial 4 -->
+    <div class="carousel-item">
+      <div class="card mx-auto border-0 shadow-sm" style="max-width: 500px;">
+        <div class="card-body">
+          <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center mx-auto mb-3"
+               style="width:80px; height:80px; font-size:24px;">
+            PD
+          </div>
+          <h5 class="card-title fw-bold">Priya Deshmukh</h5>
+          <p class="card-text text-muted">"Found a perfect photographer through SkillSetu for my event. Highly recommend!"</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonial 5 -->
+    <div class="carousel-item">
+      <div class="card mx-auto border-0 shadow-sm" style="max-width: 500px;">
+        <div class="card-body">
+          <div class="rounded-circle bg-info text-white d-flex align-items-center justify-content-center mx-auto mb-3"
+               style="width:80px; height:80px; font-size:24px;">
+            AJ
+          </div>
+          <h5 class="card-title fw-bold">Ankit Joshi</h5>
+          <p class="card-text text-muted">"Very user-friendly platform. Connecting with local experts is now easier than ever."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonial 6 -->
+    <div class="carousel-item">
+      <div class="card mx-auto border-0 shadow-sm" style="max-width: 500px;">
+        <div class="card-body">
+          <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center mx-auto mb-3"
+               style="width:80px; height:80px; font-size:24px;">
+            NK
+          </div>
+          <h5 class="card-title fw-bold">Neha Kulkarni</h5>
+          <p class="card-text text-muted">"Excellent platform to find verified professionals locally. Saved me a lot of time."</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+      <!-- Carousel Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- Call-to-Action / Contact Section with Form -->
+<!-- Contact Section -->
+<section id="contact" class="py-5 text-center" style="background:#e8f5e9;" data-aos="fade-up">
+  <div class="container">
+    <h2 class="mb-4 fw-bold">Ready to Join SkillSetu?</h2>
+    <p class="mb-4 text-muted">Whether you're a skill provider or someone looking for local talent, take the first step today!</p>
+
+    <!-- Buttons -->
+    <a href="#contactForm" class="btn btn-success btn-lg me-3 mb-3" data-aos="zoom-in" data-aos-delay="100">Join as Skill Provider</a>
+    <a href="#contactForm" class="btn btn-outline-success btn-lg mb-3" data-aos="zoom-in" data-aos-delay="200">Contact Us</a>
+
+    <!-- Contact Form -->
+    <div class="row justify-content-center mt-5">
+      <div class="col-md-6">
+        <form id="contactForm" class="bg-white p-4 rounded shadow-sm" data-aos="fade-up" data-aos-delay="300">
+          <div class="mb-3 text-start">
+            <label for="name" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Your full name" required>
+          </div>
+          <div class="mb-3 text-start">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="email" placeholder="Your email" required>
+          </div>
+          <div class="mb-3 text-start">
+            <label for="message" class="form-label">Message</label>
+            <textarea class="form-control" id="message" rows="4" placeholder="Write your message here" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-success w-100">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Toast Container -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="toastMsg" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+    <div class="d-flex">
+      <div class="toast-body" id="toastBody">Message sent!</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<!-- Bootstrap JS for Toast -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Contact Form Script -->
+<script>
+(() => {
+  // Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyADdVLIJ3Z3dnrU50HOH6UayTiNhVEX2Jw",
+    authDomain: "skillsetu-30ad7.firebaseapp.com",
+    projectId: "skillsetu-30ad7",
+    storageBucket: "skillsetu-30ad7.appspot.com",
+    messagingSenderId: "948457441658",
+    appId: "1:948457441658:web:97347ae10add9b4352eec3"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  // Initialize Bootstrap Toast
+  const toastEl = document.getElementById('toastMsg');
+  const toastBody = document.getElementById('toastBody');
+  const bsToast = new bootstrap.Toast(toastEl, { autohide: true });
+
+  // Handle form submission
+  document.getElementById("contactForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const message = document.getElementById("message").value;
+
+    try {
+      await db.collection("contactMessages").add({
+        name,
+        email,
+        message,
+        timestamp: new Date()
+      });
+
+      // Show success toast
+      toastBody.innerText = "✅ Your message has been sent successfully!";
+      toastEl.classList.remove("bg-danger");
+      toastEl.classList.add("bg-success");
+      bsToast.show();
+
+      // Reset form
+      document.getElementById("contactForm").reset();
+
+    } catch (err) {
+      console.error(err);
+      // Show error toast
+      toastBody.innerText = "❌ Error! Message not sent.";
+      toastEl.classList.remove("bg-success");
+      toastEl.classList.add("bg-danger");
+      bsToast.show();
+    }
+  });
+})();
+</script>
+
+
+
+
+
+<!-- JavaScript for Counter Animation -->
+<script>
+  const counters = document.querySelectorAll('.stat-number');
+  const speed = 200; // higher number = slower count
+
+  const animateCounters = () => {
+    counters.forEach(counter => {
+      const updateCount = () => {
+        const target = +counter.getAttribute('data-target');
+        const count = +counter.innerText;
+        const increment = Math.ceil(target / speed);
+
+        if(count < target) {
+          counter.innerText = count + increment;
+          setTimeout(updateCount, 20);
+        } else {
+          counter.innerText = target;
+        }
+      };
+      updateCount();
+    });
+  };
+
+  // Trigger animation when section comes into view
+  let statsSection = document.querySelector('.live-stats');
+  let sectionSeen = false;
+
+  window.addEventListener('scroll', () => {
+    const sectionTop = statsSection.getBoundingClientRect().top;
+    const screenHeight = window.innerHeight;
+
+    if(sectionTop < screenHeight && !sectionSeen) {
+      animateCounters();
+      sectionSeen = true;
+    }
+  });
+</script>
+
+
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+
+<!-- Database -->
+<!-- Firebase App (core SDK) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js"></script>
+
+<!-- Firestore -->
+<script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js"></script>
+
+<script>
+  // Your Firebase Config (from Firebase Console → Project Settings)
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  // Initialize Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore(app);
+</script>
+
+
+ <!-- Footer -->
+<footer class="footer py-5 mt-5" data-aos="fade-up">
+  <div class="container text-center text-white">
+    
+    <!-- Brand -->
+    <h2 class="fw-bold mb-3">SkillSetu</h2>
+    <p class="mb-4">Empowering Local Talent, Connecting Skills with Opportunities</p>
+
+    <!-- Footer Links -->
+    <div class="mb-4 footer-links">
+      <a href="#hero">Home</a>
+      <a href="skills.html">Skills</a>
+      <a href="services.html">Services</a>
+      <a href="why.html">Why Us</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#contactForm">Join</a>
+    </div>
+
+    <!-- Social Media -->
+     <div class="mb-4 social-icons">
+      <a href="https://www.linkedin.com/in/rutuja-kamble-7a3452190"><i class="bi bi-linkedin"></i></a>
+      <a href="https://www.linkedin.com/in/rutuja-kamble-7a3452190"><i class="bi bi-facebook"></i></a>
+        <a href="https://api.whatsapp.com/send?phone=917387742545&text=Hello!%20I%20want%20to%20know%20more%20about%20SkillSetu" target="_blank"><i class="bi bi-whatsapp"></i></a>
+      <a href="https://www.instagram.com/rutuja23___?igsh=dWpxejY1OWVteHB6"><i class="bi bi-instagram"></i></a>
+    </div>
+
+    <!-- Divider -->
+    <hr class="footer-divider">
+
+    <!-- Copyright & Made By -->
+    <p class="small mb-0">&copy; 2025 <strong>SkillSetu</strong>. All rights reserved.</p>
+    <p class="small mt-1">Made with <span style="color:#ff4d6d;">&#10084;</span> by <strong>Rutuja</strong></p>
+
+  </div>
+</footer>
+
+
+<!-- Footer Animations -->
+
+
+<!-- AOS Initialization for Footer -->
+<script>
+  AOS.init({
+    duration: 1000,
+    once: true
+  });
+</script>
+
+  <script>
+  // Get buttons
+  const scrollTopBtn = document.getElementById("scrollTopBtn");
+  const scrollBottomBtn = document.getElementById("scrollBottomBtn");
+
+  // Show/hide buttons on scroll
+  window.onscroll = function() {
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+      scrollTopBtn.style.display = "flex";
+    } else {
+      scrollTopBtn.style.display = "none";
+    }
+    
+    if (window.innerHeight + window.scrollY < document.body.offsetHeight - 100) {
+      scrollBottomBtn.style.display = "flex";
+    } else {
+      scrollBottomBtn.style.display = "none";
+    }
+  };
+
+  // Scroll to top
+  scrollTopBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Scroll to bottom
+  scrollBottomBtn.addEventListener("click", () => {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  });
+</script>
+
+</body>
+</html>
+

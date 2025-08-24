@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us – SkillSetu</title>
+
+  <!-- Bootstrap CSS + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"/>
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- AOS CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f6fdf8;
+      padding-top: 70px; /* space for fixed navbar */
+    }
+    .navbar { background: #a8e6cf; font-weight: 500; }
+    .navbar .nav-link { color: #222 !important; transition: color .3s; }
+    .navbar .nav-link:hover { color: #007f5f !important; }
+
+    .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 1.5rem; }
+
+    .team-member img { transition: transform 0.3s; }
+    .team-member img:hover { transform: scale(1.05); }
+
+    .counter { font-size: 2rem; font-weight: 700; color: #059669; }
+
+    /* Footer brand animation */
+.footer {
+    background: linear-gradient(135deg, #2e7d4b, #a3d9c1);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Footer links */
+.footer-links a {
+    color: white;
+    margin: 0 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.footer-links a:hover {
+    color: #ffdd59;
+    transform: scale(1.1);
+}
+
+/* Social icons */
+.social-icons a {
+    color: white;
+    margin: 0 10px;
+    font-size: 1.5rem;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+.social-icons a:hover {
+    transform: rotate(15deg) scale(1.2);
+}
+
+/* Divider */
+.footer-divider {
+    border: 0.5px solid rgba(255, 255, 255, 0.3);
+    margin: 20px 0;
+}
+
+/* Footer brand animation */
+.footer h2 {
+    position: relative;
+    display: inline-block;
+}
+.footer h2::after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 2px;
+    background: #ffdd59;
+    left: 25%;
+    bottom: -5px;
+    transition: width 0.3s ease;
+}
+.footer h2:hover::after {
+    width: 100%;
+    left: 0;
+}
+/* Scroll buttons styling */
+#scrollTopBtn, #scrollBottomBtn {
+    position: fixed;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, #34d399, #10b981);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,127,95,.3);
+    display: none; /* hidden by default */
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: all 0.3s ease;
+}
+#scrollTopBtn:hover, #scrollBottomBtn:hover {
+    background: linear-gradient(135deg, #10b981, #34d399);
+    transform: translateY(-3px);
+}
+
+/* Position top and bottom buttons */
+#scrollTopBtn { bottom: 80px; }
+#scrollBottomBtn { bottom: 20px; }
+
+/* Optional: smooth scrolling for anchor links */
+html {
+    scroll-behavior: smooth;
+}
+
+
+   </style>
+</head>
+<body>
+<!-- Scroll Buttons -->
+<button id="scrollTopBtn" title="Go to top">&#8679;</button>
+<button id="scrollBottomBtn" title="Go to bottom">&#8681;</button>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-dark" href="index.html">SkillSetu</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="skills.html">Skills</a></li>
+           <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="jobs.html">Job Listings</a></li>
+           <li class="nav-item"><a class="nav-link" href="index.html#testimonials">Testimonials</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero py-5 text-center"style="background: linear-gradient(135deg, #34d399, #059669); color: #fff;">
+    <div class="container">
+      <h1 class="display-4 fw-bold" data-aos="fade-down" data-aos-duration="1000">About SkillSetu</h1>
+      <p class="lead mt-3" data-aos="fade-up" data-aos-duration="1000">Empowering local talent and connecting skills with opportunities.</p>
+    </div>
+  </section>
+
+  <!-- Company Info Section -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6" data-aos="fade-right" data-aos-duration="1000">
+          <img src="images/About.png" class="img-fluid rounded shadow" alt="Company Image">
+        </div>
+        <div class="col-md-6" data-aos="fade-left" data-aos-duration="1000">
+          <h2 class="section-title">Who We Are</h2>
+          <p>SkillSetu is dedicated to bridging the gap between skilled professionals and local opportunities. We empower individuals by providing guidance, exposure, and tools for success.</p>
+          <p>With a focus on quality, integrity, and innovation, we create a transparent and effective ecosystem for both employers and talent seekers.</p>
+
+          <h2>Our Vision</h2>
+<p>To become the leading platform connecting local talent with meaningful opportunities, fostering growth, learning, and long-term career success.</p>
+
+<h2>Our Mission</h2>
+
+<p>Identify and nurture skilled professionals through guidance, training, and real-world exposure.
+
+Connect businesses with the right talent quickly and efficiently.
+
+Foster a community of continuous learning, collaboration, and innovation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Counters Section -->
+  <section class="py-5 bg-light text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3" data-aos="zoom-in" data-aos-delay="100">
+          <div class="counter" data-target="3200">0</div>
+          <p>Active Job Seekers</p>
+        </div>
+        <div class="col-md-3" data-aos="zoom-in" data-aos-delay="200">
+          <div class="counter" data-target="1800">0</div>
+          <p>Skilled Professionals Hired</p>
+        </div>
+        <div class="col-md-3" data-aos="zoom-in" data-aos-delay="300">
+          <div class="counter" data-target="250">0</div>
+          <p>Companies & Clients</p>
+        </div>
+        <div class="col-md-3" data-aos="zoom-in" data-aos-delay="400">
+          <div class="counter" data-target="95">0</div>
+          <p>Local Communities Served</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="py-5">
+  <div class="container">
+    <h2 class="section-title text-center mb-5" data-aos="fade-up">Meet Our Team</h2>
+    <div class="row text-center">
+
+      <!-- Team Member 1 -->
+      <div class="col-md-3" data-aos="zoom-in" data-aos-delay="100">
+        <div class="team-member">
+          <!-- Female Icon -->
+          <i class="fa-solid fa-user" style="font-size:32px; color:#059669;"></i>
+          <h5 class="mt-3">Rutuja Kamble</h5>
+          <p>Founder & CEO</p>
+        </div>
+      </div>
+
+      <!-- Team Member 2 -->
+      <div class="col-md-3" data-aos="zoom-in" data-aos-delay="200">
+        <div class="team-member">
+          <!-- Female Icon -->
+          <i class="fa-solid fa-user" style="font-size:32px; color:#059669;"></i>
+          <h5 class="mt-3">SR-Pushpa Rani</h5>
+          <p>Chief Technology Officer</p>
+        </div>
+      </div>
+
+      <!-- Team Member 3 -->
+      <div class="col-md-3" data-aos="zoom-in" data-aos-delay="300">
+        <div class="team-member">
+          <!-- Male Icon -->
+          <i class="fa-solid fa-user-tie" style="font-size:32px; color:#059669;"></i>
+          <h5 class="mt-3">SR-Umesh</h5>
+          <p>Chief Operations Officer</p>
+        </div>
+      </div>
+
+      <!-- Team Member 4 -->
+      <div class="col-md-3" data-aos="zoom-in" data-aos-delay="400">
+        <div class="team-member">
+          <!-- Female Icon -->
+          <i class="fa-solid fa-user" style="font-size:32px; color:#059669;"></i>
+          <h5 class="mt-3">SR-Sandhya Jaiswal</h5>
+          <p>Chief Marketing Officer</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+  <!-- Call-to-Action -->
+<section class="py-5 text-center" style="background: #059669; color: #fff;">
+  <div class="container" data-aos="fade-up">
+    <h2 class="mb-4">Join Our Mission</h2>
+    <p class="mb-4">Become part of a platform that empowers local talent and connects opportunities seamlessly.</p>
+    <!-- Updated button to open signup page -->
+    <a href="signup.html" class="btn btn-light btn-lg">Get Started</a>
+  </div>
+</section>
+
+
+  <!-- Footer -->
+<footer class="footer py-5 mt-5" data-aos="fade-up">
+  <div class="container text-center text-white">
+    
+    <!-- Brand -->
+    <h2 class="fw-bold mb-3">SkillSetu</h2>
+    <p class="mb-4">Empowering Local Talent, Connecting Skills with Opportunities</p>
+
+    <!-- Footer Links -->
+    <div class="mb-4 footer-links">
+      <a href="#hero">Home</a>
+      <a href="skills.html">Skills</a>
+      <a href="services.html">Services</a>
+      <a href="why.html">Why Us</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#contactForm">Join</a>
+    </div>
+
+    <!-- Social Media -->
+   <div class="mb-4 social-icons">
+      <a href="https://www.linkedin.com/in/rutuja-kamble-7a3452190"><i class="bi bi-linkedin"></i></a>
+      <a href="https://www.linkedin.com/in/rutuja-kamble-7a3452190"><i class="bi bi-facebook"></i></a>
+        <a href="https://api.whatsapp.com/send?phone=917387742545&text=Hello!%20I%20want%20to%20know%20more%20about%20SkillSetu" target="_blank"><i class="bi bi-whatsapp"></i></a>
+      <a href="https://www.instagram.com/rutuja23___?igsh=dWpxejY1OWVteHB6"><i class="bi bi-instagram"></i></a>
+    </div>
+    <!-- Divider -->
+    <hr class="footer-divider">
+
+    <!-- Copyright & Made By -->
+    <p class="small mb-0">&copy; 2025 <strong>SkillSetu</strong>. All rights reserved.</p>
+    <p class="small mt-1">Made with <span style="color:#ff4d6d;">&#10084;</span> by <strong>Rutuja</strong></p>
+
+  </div>
+</footer>
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- AOS JS -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+  <!-- Counter Script -->
+  <script>
+    AOS.init({ duration: 1000, once: true });
+
+    const counters = document.querySelectorAll('.counter');
+    const speed = 200;
+    const animateCounters = () => {
+      counters.forEach(counter => {
+        const updateCount = () => {
+          const target = +counter.getAttribute('data-target');
+          const count = +counter.innerText;
+          const inc = Math.ceil(target / speed);
+          if(count < target) {
+            counter.innerText = count + inc;
+            setTimeout(updateCount, 20);
+          } else { counter.innerText = target; }
+        };
+        updateCount();
+      });
+    };
+
+    let countersSection = document.querySelector('.counter').parentElement.parentElement;
+    let triggered = false;
+    window.addEventListener('scroll', () => {
+      const top = countersSection.getBoundingClientRect().top;
+      const screenHeight = window.innerHeight;
+      if(top < screenHeight && !triggered) { animateCounters(); triggered = true; }
+    });
+  </script>
+<script>
+  // Get buttons
+  const scrollTopBtn = document.getElementById("scrollTopBtn");
+  const scrollBottomBtn = document.getElementById("scrollBottomBtn");
+
+  // Show/hide buttons on scroll
+  window.onscroll = function() {
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+      scrollTopBtn.style.display = "flex";
+    } else {
+      scrollTopBtn.style.display = "none";
+    }
+    
+    if (window.innerHeight + window.scrollY < document.body.offsetHeight - 100) {
+      scrollBottomBtn.style.display = "flex";
+    } else {
+      scrollBottomBtn.style.display = "none";
+    }
+  };
+
+  // Scroll to top
+  scrollTopBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Scroll to bottom
+  scrollBottomBtn.addEventListener("click", () => {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  });
+</script>
+</body>
+</html>
